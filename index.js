@@ -206,7 +206,7 @@ function renderPortalHtml(botName) {
     <html lang="en">
     <head>
       <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
       <title>${botName} • PAIRING STATION</title>
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,6 +215,7 @@ function renderPortalHtml(botName) {
         :root {
           --bg-core: #090305;
           --panel-bg: rgba(20, 6, 10, 0.72);
+          --header-bg: rgba(10, 3, 5, 0.55);
           --accent-red: #e11d48;
           --accent-glow: rgba(225, 29, 72, 0.35);
           --crimson-soft: #fb7185;
@@ -225,6 +226,7 @@ function renderPortalHtml(botName) {
           --success-green: #22c55e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
 
         body {
           background-color: var(--bg-core);
@@ -237,10 +239,12 @@ function renderPortalHtml(botName) {
           color: var(--text-main);
           font-family: 'Outfit', sans-serif;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          min-height: 100vh;
-          padding: 24px;
+          height: 100dvh;
+          width: 100%;
+          padding: 12px;
           overflow: hidden;
           position: relative;
         }
@@ -291,12 +295,50 @@ function renderPortalHtml(botName) {
           50% { transform: translate(-25px, 30px) scale(1.2); }
         }
 
+        /* ===== HEADER ===== */
+        .top-header {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: 440px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 16px;
+          margin-bottom: 14px;
+          border-radius: 18px;
+          background: var(--header-bg);
+          border: 1px solid var(--border-glass);
+          backdrop-filter: blur(18px);
+          animation: fadeSlideIn 0.6s ease both;
+          flex-shrink: 0;
+        }
+        .header-logo {
+          width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+          background: linear-gradient(135deg, #be123c, var(--accent-red));
+          display: flex; align-items: center; justify-content: center;
+          font-weight: 800; font-size: 15px; color: #fff;
+          box-shadow: 0 0 14px var(--accent-glow);
+          animation: pulseDot 2.4s ease-in-out infinite;
+        }
+        .header-text { text-align: left; line-height: 1.25; overflow: hidden; }
+        .header-title {
+          font-size: 13.5px; font-weight: 800; letter-spacing: 0.3px;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .header-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.6px; text-transform: uppercase; }
+        .header-live {
+          margin-left: auto; display: flex; align-items: center; gap: 5px;
+          font-size: 10px; font-weight: 700; color: var(--crimson-soft);
+          letter-spacing: 0.6px; flex-shrink: 0;
+        }
+
         .portal-card {
           background: var(--panel-bg);
           backdrop-filter: blur(28px) saturate(160%);
           border: 1px solid var(--border-glass);
           border-radius: 28px;
-          padding: 44px 34px;
+          padding: 34px 30px;
           width: 100%;
           max-width: 440px;
           text-align: center;
@@ -305,6 +347,8 @@ function renderPortalHtml(botName) {
           overflow: hidden;
           z-index: 1;
           animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          max-height: 100%;
+          overflow-y: auto;
         }
 
         @keyframes cardEntrance {
@@ -329,7 +373,7 @@ function renderPortalHtml(botName) {
           display: inline-flex; align-items: center; gap: 7px;
           font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
           color: var(--crimson-soft); background: rgba(225, 29, 72, 0.12);
-          border: 1px solid rgba(225, 29, 72, 0.28); padding: 5px 14px; border-radius: 30px; margin-bottom: 20px;
+          border: 1px solid rgba(225, 29, 72, 0.28); padding: 5px 14px; border-radius: 30px; margin-bottom: 18px;
           animation: fadeSlideIn 0.7s ease 0.1s both;
         }
         .badge-dot {
@@ -343,7 +387,7 @@ function renderPortalHtml(botName) {
         }
 
         .app-title {
-          font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
+          font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
           background: linear-gradient(135deg, #ffffff 40%, var(--crimson-soft) 80%, var(--accent-red) 100%);
           background-size: 200% auto;
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -360,25 +404,26 @@ function renderPortalHtml(botName) {
         }
 
         .app-desc {
-          font-size: 13.5px; color: var(--text-muted); margin-bottom: 30px; font-weight: 400;
+          font-size: 13px; color: var(--text-muted); margin-bottom: 24px; font-weight: 400;
           animation: fadeSlideIn 0.7s ease 0.3s both;
         }
 
-        .input-wrap { position: relative; margin-bottom: 16px; animation: fadeSlideIn 0.7s ease 0.4s both; }
+        .input-wrap { position: relative; margin-bottom: 14px; animation: fadeSlideIn 0.7s ease 0.4s both; }
         .phone-input {
-          width: 100%; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--border-glass);
-          background: rgba(12, 3, 6, 0.7); color: var(--text-main); font-size: 17px; font-weight: 600;
+          width: 100%; padding: 15px 20px; border-radius: 16px; border: 1px solid var(--border-glass);
+          background: rgba(12, 3, 6, 0.7); color: var(--text-main); font-size: 16px; font-weight: 600;
           letter-spacing: 0.8px; text-align: center; outline: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .phone-input:focus { border-color: var(--border-focus); box-shadow: 0 0 24px rgba(225, 29, 72, 0.35); background: rgba(18, 4, 9, 0.9); }
 
         .btn-action {
-          width: 100%; padding: 16px; border-radius: 16px; border: none;
+          width: 100%; padding: 15px; border-radius: 16px; border: none;
           background: linear-gradient(135deg, #be123c 0%, var(--accent-red) 100%);
-          color: #ffffff; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.25s ease;
-          box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3); margin-bottom: 12px;
+          color: #ffffff; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s ease;
+          box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3); margin-bottom: 6px;
           position: relative; overflow: hidden;
           animation: fadeSlideIn 0.7s ease 0.5s both;
+          display: flex; align-items: center; justify-content: center; gap: 9px;
         }
         .btn-action::after {
           content: '';
@@ -395,19 +440,82 @@ function renderPortalHtml(botName) {
           100% { left: 130%; }
         }
         .btn-action:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(225, 29, 72, 0.45); }
-        .btn-action:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .btn-action:disabled { opacity: 0.85; cursor: not-allowed; transform: none; }
+        .btn-action:disabled::after { animation: none; display: none; }
 
-        .code-container { display: none; margin-top: 24px; }
-        .code-container.show { animation: codeReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Button loading spinner */
+        .btn-spinner {
+          width: 15px; height: 15px; border-radius: 50%;
+          border: 2px solid rgba(255,255,255,0.35);
+          border-top-color: #fff;
+          animation: spin 0.7s linear infinite;
+          display: none;
+        }
+        .btn-action.loading .btn-spinner { display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Generating panel shown while waiting for the code */
+        .generating-panel {
+          display: none;
+          margin-top: 20px;
+          padding: 22px 16px;
+          border-radius: 16px;
+          border: 1px dashed var(--border-glass);
+          background: rgba(225, 29, 72, 0.06);
+          animation: fadeSlideIn 0.4s ease both;
+        }
+        .generating-panel.show { display: block; }
+        .pulse-ring-wrap {
+          position: relative;
+          width: 58px; height: 58px;
+          margin: 0 auto 14px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .pulse-ring {
+          position: absolute; inset: 0;
+          border-radius: 50%;
+          border: 2px solid var(--accent-red);
+          animation: ringExpand 1.6s ease-out infinite;
+        }
+        .pulse-ring:nth-child(2) { animation-delay: 0.5s; }
+        .pulse-ring:nth-child(3) { animation-delay: 1s; }
+        @keyframes ringExpand {
+          0% { transform: scale(0.4); opacity: 0.9; }
+          100% { transform: scale(1.4); opacity: 0; }
+        }
+        .pulse-core {
+          width: 16px; height: 16px; border-radius: 50%;
+          background: var(--accent-red);
+          box-shadow: 0 0 16px var(--accent-red);
+          animation: pulseDot 1.2s ease-in-out infinite;
+        }
+        .generating-text {
+          font-size: 12.5px; font-weight: 600; color: var(--crimson-soft);
+          letter-spacing: 0.4px;
+        }
+        .generating-dots::after {
+          content: '';
+          animation: dotsCycle 1.4s steps(4, end) infinite;
+        }
+        @keyframes dotsCycle {
+          0% { content: ''; }
+          25% { content: '.'; }
+          50% { content: '..'; }
+          75% { content: '...'; }
+          100% { content: ''; }
+        }
+
+        .code-container { display: none; margin-top: 22px; }
+        .code-container.show { display: block; animation: codeReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes codeReveal {
           from { opacity: 0; transform: translateY(10px) scale(0.97); }
           to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .code-box {
-          font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 800; letter-spacing: 5px;
+          font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 800; letter-spacing: 5px;
           color: #ffe4e6; background: rgba(225, 29, 72, 0.14); border: 1.5px dashed rgba(251, 113, 133, 0.45);
-          padding: 18px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease;
+          padding: 16px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease;
           animation: codeGlow 2.4s ease-in-out infinite;
         }
         @keyframes codeGlow {
@@ -416,7 +524,7 @@ function renderPortalHtml(botName) {
         }
         .code-box:hover { background: rgba(225, 29, 72, 0.22); border-color: var(--crimson-soft); transform: scale(1.02); }
 
-        .copy-tag { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
+        .copy-tag { font-size: 11px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
 
         .btn-copy {
           width: 100%; margin-top: 14px; padding: 13px; border-radius: 14px;
@@ -431,13 +539,62 @@ function renderPortalHtml(botName) {
         .btn-copy svg { width: 15px; height: 15px; flex-shrink: 0; }
 
         .footer-note {
-          margin-top: 28px; font-size: 11px; letter-spacing: 1px; color: rgba(255, 255, 255, 0.25); text-transform: uppercase;
+          margin-top: 20px; font-size: 10.5px; letter-spacing: 1px; color: rgba(255, 255, 255, 0.25); text-transform: uppercase;
           animation: fadeSlideIn 0.7s ease 0.6s both;
         }
 
+        /* ===== TOAST (replaces native alert popups) ===== */
+        .toast-stack {
+          position: fixed;
+          top: max(14px, env(safe-area-inset-top));
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 50;
+          width: calc(100% - 28px);
+          max-width: 420px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          pointer-events: none;
+        }
+        .toast {
+          pointer-events: auto;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 13px 16px;
+          border-radius: 14px;
+          font-size: 12.5px;
+          font-weight: 600;
+          color: var(--text-main);
+          background: rgba(20, 6, 10, 0.92);
+          border: 1px solid var(--border-glass);
+          backdrop-filter: blur(18px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.success { border-color: rgba(34, 197, 94, 0.4); }
+        .toast.error { border-color: rgba(225, 29, 72, 0.5); }
+        .toast.leaving { animation: toastOut 0.3s ease forwards; }
+        @keyframes toastIn {
+          from { opacity: 0; transform: translateY(-14px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes toastOut {
+          to { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        }
+        .toast-icon { font-size: 15px; flex-shrink: 0; }
+        .toast-text { flex: 1; text-align: left; line-height: 1.4; }
+
+        @media (max-height: 700px) {
+          .portal-card { padding: 24px 24px; }
+          .app-title { font-size: 22px; }
+          .app-desc { margin-bottom: 18px; }
+          .code-box { font-size: 24px; letter-spacing: 3px; padding: 13px; }
+        }
         @media (max-width: 480px) {
-          .app-title { font-size: 25px; }
-          .code-box { font-size: 26px; letter-spacing: 3px; }
+          .app-title { font-size: 23px; }
+          .code-box { font-size: 25px; letter-spacing: 3px; }
         }
       </style>
     </head>
@@ -446,14 +603,39 @@ function renderPortalHtml(botName) {
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
 
+      <div class="toast-stack" id="toastStack"></div>
+
+      <div class="top-header">
+        <div class="header-logo">✗</div>
+        <div class="header-text">
+          <div class="header-title">${botName}</div>
+          <div class="header-sub">Pairing Station</div>
+        </div>
+        <div class="header-live"><span class="badge-dot"></span> LIVE</div>
+      </div>
+
       <div class="portal-card">
         <div class="badge-status"><span class="badge-dot"></span> Online System</div>
         <h1 class="app-title">${botName}</h1>
         <p class="app-desc">Enter phone number with country code</p>
         <div class="input-wrap">
-          <input type="text" id="phone" class="phone-input" placeholder="e.g. 9470xxxxxxx" />
+          <input type="text" id="phone" class="phone-input" placeholder="e.g. 9470xxxxxxx" inputmode="numeric" />
         </div>
-        <button id="btn" class="btn-action" onclick="fetchPairCode()">GET PAIRING CODE</button>
+        <button id="btn" class="btn-action" onclick="fetchPairCode()">
+          <span class="btn-spinner"></span>
+          <span id="btnLabel">GET PAIRING CODE</span>
+        </button>
+
+        <div class="generating-panel" id="generatingPanel">
+          <div class="pulse-ring-wrap">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-core"></div>
+          </div>
+          <div class="generating-text">Generating your pairing code<span class="generating-dots"></span></div>
+        </div>
+
         <div class="code-container" id="codeWrapper">
           <div class="code-box" id="codeDisplay" onclick="copyCode()"></div>
           <div class="copy-tag">Click code to copy to clipboard</div>
@@ -464,39 +646,67 @@ function renderPortalHtml(botName) {
         </div>
         <p class="footer-note">Powered by Heshan MD</p>
       </div>
+
       <script>
+        function showToast(message, type) {
+          const stack = document.getElementById('toastStack');
+          const toast = document.createElement('div');
+          toast.className = 'toast ' + (type || 'success');
+          const icon = type === 'error' ? '⚠️' : '✅';
+          toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span class="toast-text"></span>';
+          toast.querySelector('.toast-text').innerText = message;
+          stack.appendChild(toast);
+          setTimeout(() => {
+            toast.classList.add('leaving');
+            setTimeout(() => toast.remove(), 320);
+          }, 3200);
+        }
+
         async function fetchPairCode() {
           const phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-          if (!phone || phone.length < 10) return alert('කරුණාකර නිවැරදි Country Code සහිත අංකය ඇතුළත් කරන්න!');
+          if (!phone || phone.length < 10) {
+            showToast('කරුණාකර නිවැරදි Country Code සහිත අංකය ඇතුළත් කරන්න!', 'error');
+            return;
+          }
           const btn = document.getElementById('btn');
+          const btnLabel = document.getElementById('btnLabel');
           const wrapper = document.getElementById('codeWrapper');
           const display = document.getElementById('codeDisplay');
           const copyBtn = document.getElementById('copyBtn');
           const copyBtnText = document.getElementById('copyBtnText');
-          btn.innerText = 'GENERATING CODE...';
+          const genPanel = document.getElementById('generatingPanel');
+
+          btn.classList.add('loading');
+          btnLabel.innerText = 'GENERATING...';
           btn.disabled = true;
           wrapper.classList.remove('show');
           wrapper.style.display = 'none';
           copyBtn.classList.remove('copied');
           copyBtnText.innerText = 'COPY CODE';
+          genPanel.classList.add('show');
+
           try {
             const res = await fetch('/pair?num=' + phone);
             const data = await res.json();
+            genPanel.classList.remove('show');
             if (data.code) {
               display.innerText = data.code;
               wrapper.style.display = 'block';
               requestAnimationFrame(() => wrapper.classList.add('show'));
               navigator.clipboard.writeText(data.code).catch(()=>{});
-              alert('✅ Pairing Code: ' + data.code);
+              showToast('Pairing Code Ready: ' + data.code, 'success');
             } else {
-              alert(data.error || 'Connection busy. Please wait 10 seconds and retry.');
+              showToast(data.error || 'Connection busy. Please wait 10 seconds and retry.', 'error');
             }
           } catch(e) {
-            alert('Server connection error. Refresh page and retry!');
+            genPanel.classList.remove('show');
+            showToast('Server connection error. Refresh page and retry!', 'error');
           }
-          btn.innerText = 'GET PAIRING CODE';
+          btn.classList.remove('loading');
+          btnLabel.innerText = 'GET PAIRING CODE';
           btn.disabled = false;
         }
+
         function copyCode() {
           const code = document.getElementById('codeDisplay').innerText;
           const copyBtn = document.getElementById('copyBtn');
@@ -505,12 +715,13 @@ function renderPortalHtml(botName) {
             navigator.clipboard.writeText(code).then(() => {
               copyBtn.classList.add('copied');
               copyBtnText.innerText = 'COPIED!';
+              showToast('Copied to clipboard', 'success');
               setTimeout(() => {
                 copyBtn.classList.remove('copied');
                 copyBtnText.innerText = 'COPY CODE';
               }, 2000);
             }).catch(() => {
-              alert('✅ Copied to clipboard: ' + code);
+              showToast('Copy failed. Code: ' + code, 'error');
             });
           }
         }
