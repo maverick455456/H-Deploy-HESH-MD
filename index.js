@@ -241,10 +241,10 @@ function renderPortalHtml(botName) {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           height: 100dvh;
           width: 100%;
-          padding: 12px;
+          padding: max(14px, env(safe-area-inset-top)) 12px 12px;
           overflow: hidden;
           position: relative;
         }
@@ -303,34 +303,75 @@ function renderPortalHtml(botName) {
           max-width: 440px;
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 16px;
-          margin-bottom: 14px;
-          border-radius: 18px;
-          background: var(--header-bg);
+          gap: 13px;
+          padding: 14px 18px;
+          margin-bottom: 16px;
+          border-radius: 20px;
+          background: linear-gradient(135deg, rgba(30, 8, 13, 0.75), rgba(10, 3, 5, 0.6));
           border: 1px solid var(--border-glass);
-          backdrop-filter: blur(18px);
+          backdrop-filter: blur(20px) saturate(150%);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.04);
           animation: fadeSlideIn 0.6s ease both;
           flex-shrink: 0;
+          overflow: hidden;
+        }
+        .top-header::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; height: 2px;
+          background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+          background-size: 200% 100%;
+          animation: shimmerBar 3.4s linear infinite;
+        }
+        .header-logo-wrap {
+          position: relative;
+          width: 42px; height: 42px;
+          flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .header-logo-ring {
+          position: absolute; inset: -4px;
+          border-radius: 14px;
+          background: conic-gradient(from 0deg, var(--accent-red), var(--crimson-soft), transparent, var(--accent-red));
+          opacity: 0.55;
+          animation: spin 4s linear infinite;
         }
         .header-logo {
-          width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+          position: relative;
+          width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
           background: linear-gradient(135deg, #be123c, var(--accent-red));
           display: flex; align-items: center; justify-content: center;
-          font-weight: 800; font-size: 15px; color: #fff;
-          box-shadow: 0 0 14px var(--accent-glow);
-          animation: pulseDot 2.4s ease-in-out infinite;
+          font-weight: 800; font-size: 17px; color: #fff;
+          box-shadow: 0 0 16px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.25);
         }
-        .header-text { text-align: left; line-height: 1.25; overflow: hidden; }
+        .header-text { text-align: left; line-height: 1.3; overflow: hidden; flex: 1; }
         .header-title {
-          font-size: 13.5px; font-weight: 800; letter-spacing: 0.3px;
+          font-size: 15px; font-weight: 800; letter-spacing: 0.2px;
           white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          background: linear-gradient(135deg, #ffffff, var(--crimson-soft));
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .header-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.6px; text-transform: uppercase; }
+        .header-sub {
+          font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;
+          font-weight: 600; margin-top: 1px;
+        }
         .header-live {
-          margin-left: auto; display: flex; align-items: center; gap: 5px;
-          font-size: 10px; font-weight: 700; color: var(--crimson-soft);
-          letter-spacing: 0.6px; flex-shrink: 0;
+          margin-left: auto; display: flex; align-items: center; gap: 6px;
+          font-size: 10px; font-weight: 800; color: var(--crimson-soft);
+          letter-spacing: 0.8px; flex-shrink: 0;
+          background: rgba(225, 29, 72, 0.12);
+          border: 1px solid rgba(225, 29, 72, 0.25);
+          padding: 5px 10px; border-radius: 20px;
+        }
+
+        .main-content {
+          width: 100%;
+          max-width: 440px;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 0;
         }
 
         .portal-card {
@@ -606,7 +647,10 @@ function renderPortalHtml(botName) {
       <div class="toast-stack" id="toastStack"></div>
 
       <div class="top-header">
-        <div class="header-logo">✗</div>
+        <div class="header-logo-wrap">
+          <div class="header-logo-ring"></div>
+          <div class="header-logo">✗</div>
+        </div>
         <div class="header-text">
           <div class="header-title">${botName}</div>
           <div class="header-sub">Pairing Station</div>
@@ -614,6 +658,7 @@ function renderPortalHtml(botName) {
         <div class="header-live"><span class="badge-dot"></span> LIVE</div>
       </div>
 
+      <div class="main-content">
       <div class="portal-card">
         <div class="badge-status"><span class="badge-dot"></span> Online System</div>
         <h1 class="app-title">${botName}</h1>
@@ -645,6 +690,7 @@ function renderPortalHtml(botName) {
           </button>
         </div>
         <p class="footer-note">Powered by Heshan MD</p>
+      </div>
       </div>
 
       <script>
