@@ -197,7 +197,7 @@ function getCommandExecutor(cmd) {
 }
 
 // ============================================================================
-// 🌐 LUXURY RED-BLACK GLASSMORPHIC PORTAL
+// 🌐 LUXURY RED-BLACK GLASSMORPHIC PORTAL (PREMIUM ANIMATED EDITION)
 // ============================================================================
 
 function renderPortalHtml(botName) {
@@ -222,13 +222,18 @@ function renderPortalHtml(botName) {
           --border-focus: rgba(244, 63, 94, 0.65);
           --text-main: #fcfcfd;
           --text-muted: #9f8e93;
+          --success-green: #22c55e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
           background-color: var(--bg-core);
-          background-image: 
-            radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.18) 0%, transparent 60%),
-            radial-gradient(circle at 10% 90%, rgba(159, 18, 57, 0.12) 0%, transparent 45%);
+          background-image:
+            radial-gradient(circle at 50% 0%, rgba(225, 29, 72, 0.22) 0%, transparent 60%),
+            radial-gradient(circle at 10% 90%, rgba(159, 18, 57, 0.15) 0%, transparent 45%),
+            radial-gradient(circle at 90% 20%, rgba(190, 18, 60, 0.12) 0%, transparent 50%);
+          background-size: 200% 200%;
+          animation: bgDrift 16s ease-in-out infinite;
           color: var(--text-main);
           font-family: 'Outfit', sans-serif;
           display: flex;
@@ -236,7 +241,56 @@ function renderPortalHtml(botName) {
           justify-content: center;
           min-height: 100vh;
           padding: 24px;
+          overflow: hidden;
+          position: relative;
         }
+
+        @keyframes bgDrift {
+          0% { background-position: 0% 0%, 0% 100%, 100% 0%; }
+          50% { background-position: 30% 20%, 20% 80%, 70% 30%; }
+          100% { background-position: 0% 0%, 0% 100%, 100% 0%; }
+        }
+
+        /* Floating glow orbs */
+        .orb {
+          position: fixed;
+          border-radius: 50%;
+          filter: blur(50px);
+          opacity: 0.5;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .orb-1 {
+          width: 260px; height: 260px;
+          background: radial-gradient(circle, rgba(225,29,72,0.55), transparent 70%);
+          top: -80px; left: -80px;
+          animation: floatOrb1 11s ease-in-out infinite;
+        }
+        .orb-2 {
+          width: 220px; height: 220px;
+          background: radial-gradient(circle, rgba(251,113,133,0.45), transparent 70%);
+          bottom: -70px; right: -60px;
+          animation: floatOrb2 13s ease-in-out infinite;
+        }
+        .orb-3 {
+          width: 160px; height: 160px;
+          background: radial-gradient(circle, rgba(159,18,57,0.5), transparent 70%);
+          top: 60%; left: 85%;
+          animation: floatOrb3 9s ease-in-out infinite;
+        }
+        @keyframes floatOrb1 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(40px, 60px) scale(1.15); }
+        }
+        @keyframes floatOrb2 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-35px, -45px) scale(1.1); }
+        }
+        @keyframes floatOrb3 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-25px, 30px) scale(1.2); }
+        }
+
         .portal-card {
           background: var(--panel-bg);
           backdrop-filter: blur(28px) saturate(160%);
@@ -249,57 +303,149 @@ function renderPortalHtml(botName) {
           box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 45px var(--accent-glow);
           position: relative;
           overflow: hidden;
+          z-index: 1;
+          animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        @keyframes cardEntrance {
+          0% { opacity: 0; transform: translateY(28px) scale(0.96); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         .portal-card::before {
           content: '';
           position: absolute;
           top: 0; left: 0; right: 0; height: 3px;
           background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+          background-size: 200% 100%;
+          animation: shimmerBar 3s linear infinite;
         }
+        @keyframes shimmerBar {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
         .badge-status {
           display: inline-flex; align-items: center; gap: 7px;
           font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
           color: var(--crimson-soft); background: rgba(225, 29, 72, 0.12);
           border: 1px solid rgba(225, 29, 72, 0.28); padding: 5px 14px; border-radius: 30px; margin-bottom: 20px;
+          animation: fadeSlideIn 0.7s ease 0.1s both;
         }
-        .badge-dot { width: 6px; height: 6px; background: var(--accent-red); border-radius: 50%; box-shadow: 0 0 8px var(--accent-red); }
+        .badge-dot {
+          width: 6px; height: 6px; background: var(--accent-red); border-radius: 50%;
+          box-shadow: 0 0 8px var(--accent-red);
+          animation: pulseDot 1.6s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(1.5); }
+        }
+
         .app-title {
           font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
           background: linear-gradient(135deg, #ffffff 40%, var(--crimson-soft) 80%, var(--accent-red) 100%);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px;
+          background-size: 200% auto;
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+          margin-bottom: 6px;
+          animation: fadeSlideIn 0.7s ease 0.2s both, titleShine 5s linear infinite 1s;
         }
-        .app-desc { font-size: 13.5px; color: var(--text-muted); margin-bottom: 30px; font-weight: 400; }
-        .input-wrap { position: relative; margin-bottom: 16px; }
+        @keyframes titleShine {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes fadeSlideIn {
+          0% { opacity: 0; transform: translateY(10px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-desc {
+          font-size: 13.5px; color: var(--text-muted); margin-bottom: 30px; font-weight: 400;
+          animation: fadeSlideIn 0.7s ease 0.3s both;
+        }
+
+        .input-wrap { position: relative; margin-bottom: 16px; animation: fadeSlideIn 0.7s ease 0.4s both; }
         .phone-input {
           width: 100%; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--border-glass);
           background: rgba(12, 3, 6, 0.7); color: var(--text-main); font-size: 17px; font-weight: 600;
           letter-spacing: 0.8px; text-align: center; outline: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .phone-input:focus { border-color: var(--border-focus); box-shadow: 0 0 24px rgba(225, 29, 72, 0.35); background: rgba(18, 4, 9, 0.9); }
+
         .btn-action {
           width: 100%; padding: 16px; border-radius: 16px; border: none;
           background: linear-gradient(135deg, #be123c 0%, var(--accent-red) 100%);
           color: #ffffff; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.25s ease;
           box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3); margin-bottom: 12px;
+          position: relative; overflow: hidden;
+          animation: fadeSlideIn 0.7s ease 0.5s both;
+        }
+        .btn-action::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -75%;
+          width: 50%; height: 100%;
+          background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+          transform: skewX(-20deg);
+          animation: btnShine 2.8s ease-in-out infinite;
+        }
+        @keyframes btnShine {
+          0% { left: -75%; }
+          50% { left: 130%; }
+          100% { left: 130%; }
         }
         .btn-action:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(225, 29, 72, 0.45); }
-        .btn-reset {
-          width: 100%; padding: 13px; border-radius: 14px; border: 1px solid rgba(225, 29, 72, 0.25);
-          background: rgba(225, 29, 72, 0.08); color: var(--crimson-soft); font-size: 12.5px; font-weight: 600; cursor: pointer;
+        .btn-action:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+        .code-container { display: none; margin-top: 24px; }
+        .code-container.show { animation: codeReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes codeReveal {
+          from { opacity: 0; transform: translateY(10px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .code-container { display: none; margin-top: 24px; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
         .code-box {
           font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 800; letter-spacing: 5px;
           color: #ffe4e6; background: rgba(225, 29, 72, 0.14); border: 1.5px dashed rgba(251, 113, 133, 0.45);
           padding: 18px; border-radius: 16px; cursor: pointer; transition: all 0.25s ease;
+          animation: codeGlow 2.4s ease-in-out infinite;
+        }
+        @keyframes codeGlow {
+          0%, 100% { box-shadow: 0 0 0px rgba(225, 29, 72, 0); }
+          50% { box-shadow: 0 0 26px rgba(225, 29, 72, 0.35); }
         }
         .code-box:hover { background: rgba(225, 29, 72, 0.22); border-color: var(--crimson-soft); transform: scale(1.02); }
+
         .copy-tag { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
-        .footer-note { margin-top: 28px; font-size: 11px; letter-spacing: 1px; color: rgba(255, 255, 255, 0.25); text-transform: uppercase; }
+
+        .btn-copy {
+          width: 100%; margin-top: 14px; padding: 13px; border-radius: 14px;
+          border: 1px solid rgba(251, 113, 133, 0.35);
+          background: rgba(225, 29, 72, 0.1); color: var(--crimson-soft);
+          font-size: 13px; font-weight: 700; letter-spacing: 0.4px; cursor: pointer;
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+          transition: all 0.25s ease;
+        }
+        .btn-copy:hover { background: rgba(225, 29, 72, 0.2); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(225, 29, 72, 0.25); }
+        .btn-copy.copied { background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.5); color: #4ade80; }
+        .btn-copy svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+        .footer-note {
+          margin-top: 28px; font-size: 11px; letter-spacing: 1px; color: rgba(255, 255, 255, 0.25); text-transform: uppercase;
+          animation: fadeSlideIn 0.7s ease 0.6s both;
+        }
+
+        @media (max-width: 480px) {
+          .app-title { font-size: 25px; }
+          .code-box { font-size: 26px; letter-spacing: 3px; }
+        }
       </style>
     </head>
     <body>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
       <div class="portal-card">
         <div class="badge-status"><span class="badge-dot"></span> Online System</div>
         <h1 class="app-title">${botName}</h1>
@@ -308,10 +454,13 @@ function renderPortalHtml(botName) {
           <input type="text" id="phone" class="phone-input" placeholder="e.g. 9470xxxxxxx" />
         </div>
         <button id="btn" class="btn-action" onclick="fetchPairCode()">GET PAIRING CODE</button>
-        <button class="btn-reset" onclick="cleanSessionSlot()">CLEAN THIS SESSION</button>
         <div class="code-container" id="codeWrapper">
           <div class="code-box" id="codeDisplay" onclick="copyCode()"></div>
           <div class="copy-tag">Click code to copy to clipboard</div>
+          <button class="btn-copy" id="copyBtn" onclick="copyCode()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span id="copyBtnText">COPY CODE</span>
+          </button>
         </div>
         <p class="footer-note">Powered by Heshan MD</p>
       </div>
@@ -322,15 +471,21 @@ function renderPortalHtml(botName) {
           const btn = document.getElementById('btn');
           const wrapper = document.getElementById('codeWrapper');
           const display = document.getElementById('codeDisplay');
+          const copyBtn = document.getElementById('copyBtn');
+          const copyBtnText = document.getElementById('copyBtnText');
           btn.innerText = 'GENERATING CODE...';
           btn.disabled = true;
+          wrapper.classList.remove('show');
           wrapper.style.display = 'none';
+          copyBtn.classList.remove('copied');
+          copyBtnText.innerText = 'COPY CODE';
           try {
             const res = await fetch('/pair?num=' + phone);
             const data = await res.json();
             if (data.code) {
               display.innerText = data.code;
               wrapper.style.display = 'block';
+              requestAnimationFrame(() => wrapper.classList.add('show'));
               navigator.clipboard.writeText(data.code).catch(()=>{});
               alert('✅ Pairing Code: ' + data.code);
             } else {
@@ -342,24 +497,21 @@ function renderPortalHtml(botName) {
           btn.innerText = 'GET PAIRING CODE';
           btn.disabled = false;
         }
-        async function cleanSessionSlot() {
-          const phone = document.getElementById('phone').value.replace(/[^0-9]/g, '');
-          if (!phone) return alert('Clean කිරීමට Phone Number එක ඇතුළත් කරන්න!');
-          if (confirm('+' + phone + ' සඳහා පැරණි session එක සම්පූර්ණයෙන්ම Clean කරන්නද?')) {
-            try {
-              const res = await fetch('/reset-num?num=' + phone);
-              const data = await res.json();
-              if (data.success) alert('✅ Session Cleared!');
-            } catch(e) {
-              alert('Clean request failed!');
-            }
-          }
-        }
         function copyCode() {
           const code = document.getElementById('codeDisplay').innerText;
+          const copyBtn = document.getElementById('copyBtn');
+          const copyBtnText = document.getElementById('copyBtnText');
           if (code) {
-            navigator.clipboard.writeText(code);
-            alert('✅ Copied to clipboard: ' + code);
+            navigator.clipboard.writeText(code).then(() => {
+              copyBtn.classList.add('copied');
+              copyBtnText.innerText = 'COPIED!';
+              setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyBtnText.innerText = 'COPY CODE';
+              }, 2000);
+            }).catch(() => {
+              alert('✅ Copied to clipboard: ' + code);
+            });
           }
         }
       </script>
@@ -1236,4 +1388,3 @@ async function main() {
 }
 
 main();
-
